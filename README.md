@@ -3,6 +3,9 @@
 
 A testbed for comparing models with and without influence function update steps, accompanying paper: https://openreview.net/forum?id=dQxBRqCjLr
 
+M.J. Vowels, S. Akbari, C. Camgoz, and R. Bowden. A Free Lunch with Influence Functions? An Empirical Evaluation of Influence Functions for Average Treatment Effect
+Estimation. TMLR, 2023. https://openreview.net/pdf?id=dQxBRqCjLr
+
 
 Q (outcome) methods:
 - Linear/Logistic Regression
