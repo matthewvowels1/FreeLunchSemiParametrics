@@ -127,10 +127,14 @@ You can specify which dataset, and which Q and G models you wish to run in ```ma
 
 ## Evaluating Results
 
-An example jupyternotebook for accessing results is given ```in results_exploration-DML.ipynb```. This script
-is designed to access the results for the aeATE comparison, because the DML approach does not provide individual
-per-participant predictions, but just an overall estimate of the ATE.
+jupyternotebooks for accessing results are :
 
+- ```results_exploration-DML.ipynb```. This script is designed to access the results for the aeATE comparison, because the DML approach does not provide individual  er-participant predictions, but just an overall estimate of the ATE.
+- ```results_exploration-table4.ipynb``` This script is designed to access the results provided in table 4 in the appendix. It can be used to compile the results into a dictionary with pickle.
+- ```results_factorial_review_mod_with_shap-v2.ipynb``` This undertakes all the plots and shap analyses
+
+N.B. these notebooks are designed to be used with a complete set of simulations. You will need to modify them / create your own
+if, e.g., you evaluate a smaller number of Q- U- or G- methods.
 
 
 ## Trouble Shooting
