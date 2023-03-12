@@ -1,8 +1,6 @@
 import numpy as np
-import pandas as pd
-from QGNet import Tuner, QNet, GNet, Trainer, T_scaling
+from QGNet import Tuner, QNet, GNet, Trainer
 from QGMultiNet import MultiNetTuner, GMultiNet, QMultiNet, MultiNetTrainer
-from data_gen import generate_data, sigm, inv_sigm, IHDP
 import torch
 
 

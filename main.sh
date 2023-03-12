@@ -2,7 +2,7 @@ set -e
 
 for i in {1..100}  # number of simulations
 do
-# choose DATASET to use (options include synth1, synth2, synth3, general and IHDP). The synth datasets are variants of the Luque-Fernandez 2018 dataset.
+# choose DATASET to use (options include synth1, synth2, general and IHDP). The synth datasets are variants of the Luque-Fernandez et al. 2018 dataset.
 # The options in the paper are synth1 = LF (V1), synth2 = LF (V2), IHDP, and general ('Gen' in the article).
 DATASET="general"
 RUN="RUN_all_general_TEST"  # name of run
@@ -22,7 +22,6 @@ TRAINQTVAE=1   # TVAE
 TRAINQDML=1   # Double ML
 
 
-
 # Choose which G models to evaluate:
 TRAINGCFR=1   # CFR learner G
 TRAINGMN=1   # MultiNet Learner G
@@ -40,12 +39,13 @@ RUNB=1
 RUNC=1
 RUND=1
 
+WDIR="$(dirname "$0")"
 
 if [ $RUNA -eq 1 ]
 then
 echo "============= A: Generating Data... ============="
 source /opt/conda/bin/activate my_gpu_torch
-/opt/conda/envs/my_gpu_torch/bin/python data_gen_main.py --dataset $DATASET --run $RUN --N $N --iteration $ITER
+/opt/conda/envs/my_gpu_torch/bin/python "$WDIR/helpers/data_gen_main.py" --dataset $DATASET --run $RUN --N $N --iteration $ITER
 conda deactivate
 fi
 
@@ -57,7 +57,7 @@ then
 # B.1 Train Q CFR and MultiNet models and save model outcome predictions
 echo "============= B: Training models (such as) CFR and MN... ============="
 source /opt/conda/bin/activate my_gpu_torch
-/opt/conda/envs/my_gpu_torch/bin/python Q_main_mncfr.py --dataset $DATASET --run $RUN --train_mnlearner $TRAINQMN --train_cfrlearner $TRAINQCFR --iteration $ITER --N $N --train_tvae $TRAINQTVAE
+/opt/conda/envs/my_gpu_torch/bin/python "$WDIR/helpers/Q_main_mncfr.py" --dataset $DATASET --run $RUN --train_mnlearner $TRAINQMN --train_cfrlearner $TRAINQCFR --iteration $ITER --N $N --train_tvae $TRAINQTVAE
 conda deactivate
 fi
 
@@ -80,7 +80,7 @@ else
 fi
 
 echo "============= B: Training alternative models (such as) DragonNet, SL etc... ============="
-/opt/conda/envs/causal-ml/bin/python Q_main.py --dataset $DATASET  --N $N  --run $RUN --train_dmllearner $TRAINQDML --train_tlearner $TRAINQT --train_slearner $TRAINQS --train_dragon $TRAINQD --train_sllearner $TRAINQSL --train_lrlearner $TRAINQLR  --iteration $ITER
+/opt/conda/envs/causal-ml/bin/python "$WDIR/helpers/Q_main.py" --dataset $DATASET  --N $N  --run $RUN --train_dmllearner $TRAINQDML --train_tlearner $TRAINQT --train_slearner $TRAINQS --train_dragon $TRAINQD --train_sllearner $TRAINQSL --train_lrlearner $TRAINQLR  --iteration $ITER
 conda deactivate
 fi
 
@@ -91,7 +91,7 @@ then
 echo "============= C: Training Propensity Score Models... ============="
 source /opt/conda/bin/activate causal-ml
 # C. Train G and save model propensity score predictions
-/opt/conda/envs/causal-ml/bin/python G_main.py --dataset $DATASET --run $RUN --N $N  --train_lr $TRAINGLR --train_sl $TRAINGSL --train_mn $TRAINGMN --train_cfr $TRAINGCFR --iteration $ITER
+/opt/conda/envs/causal-ml/bin/python "$WDIR/helpers/G_main.py" --dataset $DATASET --run $RUN --N $N  --train_lr $TRAINGLR --train_sl $TRAINGSL --train_mn $TRAINGMN --train_cfr $TRAINGCFR --iteration $ITER
 conda deactivate
 fi
 
@@ -101,7 +101,7 @@ then
 # D. Evaluate models with and without targeted/IF update(s)
 echo "============= D: Evaluating Models... ============="
 source /opt/conda/bin/activate my_gpu_torch
-/opt/conda/envs/my_gpu_torch/bin/python eval_main.py --dataset $DATASET --QDML $TRAINQDML --QTVAE $TRAINQTVAE --fn $FN_ --fn_mo $FN_MO --run $RUN --QS $TRAINQS  --QT $TRAINQT --QMN $TRAINQMN --QCFR $TRAINQCFR --N $N  --QLR $TRAINQLR --QSL $TRAINQSL --QD $TRAINQD --GLR $TRAINGLR --GSL $TRAINGSL --GMN $TRAINGMN --GCFR $TRAINGCFR --GP $USEP --GDP $TRAINQD --iteration $ITER
+/opt/conda/envs/my_gpu_torch/bin/python "$WDIR/helpers/eval_main.py" --dataset $DATASET --QDML $TRAINQDML --QTVAE $TRAINQTVAE --fn $FN_ --fn_mo $FN_MO --run $RUN --QS $TRAINQS  --QT $TRAINQT --QMN $TRAINQMN --QCFR $TRAINQCFR --N $N  --QLR $TRAINQLR --QSL $TRAINQSL --QD $TRAINQD --GLR $TRAINGLR --GSL $TRAINGSL --GMN $TRAINGMN --GCFR $TRAINGCFR --GP $USEP --GDP $TRAINQD --iteration $ITER
 conda deactivate
 fi
 done

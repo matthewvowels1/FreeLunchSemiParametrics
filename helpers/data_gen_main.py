@@ -13,9 +13,9 @@ def main(args):
 	N = args.N
 	fn = os.path.join(args.fn, run + '_data_')
 
-	os.makedirs('data', exist_ok=True)
-	os.makedirs('model_output', exist_ok=True)
-	os.makedirs('results', exist_ok=True)
+	os.makedirs('../data', exist_ok=True)
+	os.makedirs('../model_output', exist_ok=True)
+	os.makedirs('../results', exist_ok=True)
 
 	if dataset == 'IHDP':
 		z, x, y, y1, y0 = IHDP(seed=iter)

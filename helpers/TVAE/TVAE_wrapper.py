@@ -17,9 +17,6 @@ from pyro.infer import Trace_ELBO
 from pyro.infer.util import torch_item
 from TVAE.TVAE_guide_model import Model, Guide
 from TVAE.helpers import logit_, policy_val
-import pytz
-from datetime import datetime
-import os
 
 
 class TraceCausalEffect_ELBO(Trace_ELBO):
